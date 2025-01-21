@@ -1,0 +1,1080 @@
+/* General Reset and Box Sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 20px 3%;
+}
+
+header img {
+  height: 130px;
+  object-fit: contain;
+  max-width: 100%;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-list li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+  color: #007BFF;
+}
+
+
+.menu-toggle {
+  display: none; 
+  background: transparent; 
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.menu-toggle:hover {
+  color: #007BFF;
+}
+
+
+/* Main Content */
+main {
+  padding: 0 3%;
+  margin-bottom: 20px;
+}
+
+main .responsive-image {
+  width: 100%;
+  height: 80vh;
+  object-fit: cover; /* Ensures the image covers the container without stretching */
+  object-position: center; /* Centers the image within the container */
+}
+
+.book-now-container {
+  text-align: left;
+  margin: 50px 0;
+}
+
+.book-now-container h2 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.book-now-button {
+  padding: 35px;
+  font-size: 18px;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-now-button:hover {
+  background-color: #666666;
+}
+
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  height: auto; /* Adjust if needed */
+}
+
+.hero-image-container img {
+  width: 100%;
+  height: 80vh;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.description {
+  font-size: 1.25rem; /* 2 times normal text size */
+  margin-top: 10px;
+  margin-bottom: 100px;
+  line-height: 1.8;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 3%;
+}
+
+footer .footer-left,
+footer .footer-right {
+  display: flex;
+  flex-direction: column;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #007BFF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Header Styling */
+  header {
+    position: relative; /* Allows absolutely positioned elements inside to align relative to header */
+  }
+
+  header img {
+    height: 40px; /* Standard navbar height for small screens */
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute; 
+    top: 20px;
+    right: 20px;
+    z-index: 10000; /* Higher than the menu's z-index */
+  }
+
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    position: absolute;
+    top: 0;         
+    left: 0;        
+    width: 100%;    
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;  /* Slightly lower than .menu-toggle */
+  }
+
+  .nav-list li {
+    margin-bottom: 10px;
+  }
+
+  .nav-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .menu-toggle.active + .nav-list {
+    display: flex; /* Show when toggle button is active */
+  }
+
+  /* Main Content */
+  main .responsive-image {
+    height: 75vh;
+  }
+
+  .book-now-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 1.125rem; /* Slightly smaller on smaller screens */
+  }
+}
+
+/* Services Page Styling */
+.services-container {
+  padding: 50px 3%; /* Add some padding around the container */
+  max-width: 1200px; /* Limit the width of the services container */
+  margin: 0 auto; /* Center the container */
+}
+
+.services-container h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.service {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #3d3d3d;
+}
+
+.service p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.service:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-container h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Shop Page Styling */
+.shop-container {
+  padding: 50px 3%; /* Add spacing around the shop container */
+  max-width: 1200px; /* Limit the width of the shop container */
+  margin: 0 auto; /* Center the container */
+}
+
+.shop-container h2 {
+  font-size: 2.5rem;
+  text-align: left;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 products per row on desktop */
+  gap: 30px; /* Spacing between product cards */
+}
+
+/* Product Card Layout */
+.product {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  background-color: #f9f9f9; /* Light background for the card */
+  border: 1px solid #ddd; /* Subtle border for the product card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animations */
+}
+
+.product img {
+  width: 100%;
+  height: 200px; /* Fixed height for product images */
+  object-fit: cover; /* Maintain aspect ratio and fill the area */
+  margin-bottom: 15px;
+}
+
+.product-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-info p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.product-info .price {
+  font-size: 1.25rem;
+  color: #000; /* Accent color for price */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.add-to-cart {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Button hover animations */
+}
+
+.add-to-cart:hover {
+  background-color: #4d4d4d; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Responsive Grid for Products */
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 products per row on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr; /* 1 product per row on mobile */
+  }
+
+  .shop-container h2 {
+    font-size: 2rem; /* Adjust heading size for smaller screens */
+  }
+}
+
+/* Appointment Page Styling */
+.appointment-container {
+  padding: 50px 3%; /* Add spacing around the appointment container */
+  max-width: 600px; /* Limit the width of the form container */
+  margin: 0 auto; /* Center the container */
+  background-color: #f9f9f9; /* Light background for the form */
+  border: 1px solid #ddd; /* Subtle border for structure */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.appointment-container h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Form Styling */
+#appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Spacing between form elements */
+}
+
+#appointment-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#appointment-form input,
+#appointment-form select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  width: 100%;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inset shadow for inputs */
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#appointment-form input:focus,
+#appointment-form select:focus {
+  border-color: #007BFF; /* Accent color for focus */
+}
+
+#appointment-form button {
+  background-color: #007BFF;
+  color: #fff;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+#appointment-form button:hover {
+  background-color: #0056b3;
+  transform: scale(1.02); /* Slight zoom on hover */
+}
+
+/* Responsive Design for Appointment Page */
+@media (max-width: 768px) {
+  .appointment-container {
+    padding: 30px 5%; /* Adjust padding for smaller screens */
+  }
+
+  .appointment-container h2 {
+    font-size: 2rem; /* Adjust heading size for smaller screens */
+  }
+
+  #appointment-form button {
+    font-size: 0.9rem; /* Slightly smaller button text on smaller screens */
+  }
+}
+
+/* Cart Page Container */
+.cart-container {
+  padding: 50px 3%; /* Standard padding for the cart container */
+  max-width: 1200px; /* Limit the width */
+  margin: 0 auto; /* Center the cart container */
+}
+
+.cart-container h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Flexbox Layout for Cart Content */
+.cart-content {
+  display: flex;
+  gap: 20px; /* Space between items and total container */
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Allow wrapping for mobile view */
+}
+
+/* Cart Items Section */
+.cart-items {
+  flex: 2; /* Take up more space compared to the total */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between cart items */
+}
+
+.cart-item {
+  display: flex;
+  gap: 15px; /* Space between image and details */
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd; /* Separator between items */
+}
+
+.cart-item-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+/* Cart Item Details */
+.cart-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between title, price, and actions */
+}
+
+.cart-item-details h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #333;
+}
+
+.cart-item-price {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Cart Item Actions */
+.cart-item-actions {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  align-items: center;
+}
+
+.quantity-button,
+.delete-button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: 1px solid #333;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quantity-button:hover,
+.delete-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.quantity {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Cart Total Section */
+.cart-total {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  height: fit-content;
+}
+
+.cart-total h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.checkout-button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #555;
+}
+
+/* Responsive Design for Mobile View */
+@media (max-width: 768px) {
+
+
+  .cart-total {
+    margin-top: 20px; /* Move to the bottom */
+    width: 100%;
+  }
+
+  .cart-total h3 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .checkout-button {
+    font-size: 1rem;
+    padding: 10px; /* Adjust padding for better fit on mobile */
+  }
+}
+/* Container for the Team Section */
+.team-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Heading Styles */
+.team-heading {
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* Individual Team Member */
+.member {
+  display: flex;
+  flex-direction: column; /* Change to column to stack image and details vertically */
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  text-align: center; /* Center align text */
+}
+
+/* Member Image */
+.member img {
+  width: 150px; /* Adjust the width as needed */
+  height: 150px; /* Ensure the height is equal to the width */
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 10px; /* Space between image and text */
+  border-radius: 50%; /* Make the image round */
+}
+
+/* Member Info Section */
+.member-info {
+  width: 100%;
+  padding: 10px;
+}
+
+/* Member Name */
+.member-info h2 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+/* Member Role */
+.member-info h3 {
+  font-size: 1.2em;
+  font-weight: normal;
+  margin-top: 5px;
+  color: #666;
+}
+
+/* Member Bio */
+.member-info p {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+.member img:hover {
+  transform: scale(1.05); /* Slightly enlarge the image */
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .team-heading {
+    font-size: 1.8em;
+  }
+
+  .member-info h2 {
+    font-size: 1.3em;
+  }
+
+  .member-info p {
+    font-size: 0.9em;
+  }
+}
+
+/* Main Content - Contact Container */
+.contact-container {
+  max-width: 800px; /* Limit width for better readability */
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.contact-container h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #000; /* Pure black for the heading */
+}
+
+/* Form Styling */
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between form elements */
+}
+
+#contact-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button Styling */
+#contact-form button {
+  background-color: #000;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#contact-form button:hover {
+  background-color: #333;
+  transform: scale(1.02);
+}
+
+/* Confirmation Message */
+#confirmation-message {
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Social Media Icons */
+.social-media-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between icons */
+  margin-top: 30px;
+}
+
+.social-media-icons a {
+  font-size: 1rem;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: 1px solid #000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.social-media-icons a:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 20px 15px;
+  }
+
+  .contact-container h3 {
+    font-size: 1.8rem;
+  }
+
+  #contact-form input,
+  #contact-form textarea {
+    font-size: 0.9rem;
+  }
+
+  #contact-form button {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+
+  .social-media-icons a {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Privacy Policy Container */
+.privacy-container {
+  max-width: 800px; /* Limit the width for better readability */
+  margin: 0 auto;
+  padding: 40px 20px; /* Spacing around the content */
+}
+
+/* Page Title */
+.privacy-container h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #000; /* Black heading */
+}
+
+/* Section Headings */
+.privacy-container h3 {
+  font-size: 1.8rem;
+  margin-top: 30px; /* Space above the section */
+  margin-bottom: 15px; /* Space below the section title */
+  color: #000;
+}
+
+/* Paragraphs */
+.privacy-container p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px; /* Space between paragraphs */
+  text-align: justify; /* Align text for better readability */
+}
+
+/* Link Styling */
+.privacy-container a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.privacy-container a:hover {
+  color: #666;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .privacy-container {
+    padding: 20px 15px; /* Reduce padding for smaller screens */
+  }
+
+  .privacy-container h2 {
+    font-size: 2rem;
+  }
+
+  .privacy-container h3 {
+    font-size: 1.5rem;
+  }
+
+  .privacy-container p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Product Page Container */
+.product-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for mobile views */
+  gap: 40px;
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+/* Product Image Section */
+.product-image {
+  flex: 1; /* Take up half the space on desktop */
+  min-width: 300px; /* Ensure the image doesn't shrink too much */
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Maintain the image aspect ratio */
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Subtle rounding for modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Details Section */
+.product-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+/* Product Title */
+.product-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Product Description */
+.product-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* Product Price */
+.product-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Quantity Buttons */
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-button {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.quantity-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.quantity {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+.add-to-cart-button,
+.buy-now-button {
+  background-color: #fff;
+  color: #000;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-button:hover,
+.buy-now-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.add-to-cart-button {
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column; /* Stack image and details vertically */
+    gap: 20px; /* Reduce gap for smaller screens */
+    padding: 10px;
+  }
+
+  .product-image,
+  .product-details {
+    min-width: 100%; /* Full width for smaller screens */
+  }
+
+  .product-title {
+    font-size: 1.8rem; /* Slightly smaller title for mobile */
+  }
+
+  .product-price {
+    font-size: 1.4rem;
+  }
+
+  .quantity-button {
+    padding: 8px 12px; /* Adjust button size for mobile */
+    font-size: 0.9rem;
+  }
+
+  .add-to-cart-button,
+  .buy-now-button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+
+
+/* Login and Signup Container */
+.login-container,
+.signup-container {
+  max-width: 400px; /* Fixed width for the form */
+  margin: 50px auto;
+  padding: 40px 20px;
+  border: 1px solid #ddd; /* Light border for separation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners for modern design */
+  background-color: #fff; /* White theme */
+}
+
+.login-container h2,
+.signup-container h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between form fields */
+}
+
+form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus {
+  border-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+/* Button Styles */
+form button {
+  background-color: #fff;
+  color: #000;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+form button:hover {
+  background-color: #000;
+  color: #fff;
+  transform: scale(1.02); /* Subtle scale effect */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container,
+  .signup-container {
+    padding: 30px 15px; /* Reduce padding for smaller screens */
+  }
+
+  form button {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
