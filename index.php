@@ -13,7 +13,7 @@
   <main>
     <div class="hero-image-container">
       <img src="/EGS/assets/images/Best-Salon-DesignCrop.jpg" class="responsive-image" />
-      <button class="book-now-button hero-button" onclick="location.href='pages/logIn.html'">BOOK NOW</button>
+      <button class="book-now-button hero-button" onclick="location.href='pages/logIn.php'">BOOK NOW</button>
     </div>
 
     <div class="book-now-container">

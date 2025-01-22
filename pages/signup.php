@@ -31,6 +31,11 @@
 
                 <button type="submit">Signup</button>
             </form>
+
+            <p class="form-link">
+                Already have an account?
+                <a href="/EGS/pages/login.php">Login here</a>
+            </p>
         </div>
     </main>
     <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>

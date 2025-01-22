@@ -22,6 +22,18 @@
 
         <button type="submit">Login</button>
       </form>
+
+      <!-- Link to Signup Page -->
+      <p class="form-link">
+        Don't have an account?
+        <a href="/EGS/pages/signup.php">Signup here</a>
+      </p>
+
+      <!-- Forgot Password Link -->
+      <p class="form-link">
+        Forgot your password?
+        <a href="/EGS/pages/recover-password.php">Recover here</a>
+      </p>
     </div>
   </main>
   <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
