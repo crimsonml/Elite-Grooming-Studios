@@ -13,7 +13,7 @@ body {
   color: #333;
 }
 
-/* Header Styling */
+/* General Header Styling (Keep existing styles intact) */
 header {
   display: flex;
   align-items: center;
@@ -50,10 +50,9 @@ nav {
   color: #007BFF;
 }
 
-
 .menu-toggle {
-  display: none; 
-  background: transparent; 
+  display: none;
+  background: transparent;
   border: none;
   font-size: 24px;
   cursor: pointer;
@@ -65,6 +64,97 @@ nav {
   color: #007BFF;
 }
 
+/* Cart Icon with Bubble */
+.cart-icon {
+  position: relative; /* Position for the bubble */
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.cart-icon:hover {
+  color: #007BFF;
+}
+
+.cart-icon .cart-bubble {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #007BFF; /* Accent color for the bubble */
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%; /* Make it circular */
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Login Icon */
+.login-icon {
+  font-size: 1.5rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.login-icon:hover {
+  color: #007BFF;
+}
+
+/* Responsive Design (Keep existing styles, update nav-list if needed) */
+@media (max-width: 768px) {
+  header {
+    position: relative; /* Keep position for responsive design */
+  }
+
+  header img {
+    height: 40px; /* Logo size for mobile */
+  }
+
+  .menu-toggle {
+    display: block; /* Display toggle menu on mobile */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+  }
+
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+  }
+
+  .nav-list li {
+    margin-bottom: 10px;
+  }
+
+  .nav-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .menu-toggle.active + .nav-list {
+    display: flex; /* Show menu when toggle is active */
+  }
+
+  /* Center the cart bubble for mobile */
+  .cart-icon .cart-bubble {
+    top: 0;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+  }
+}
 
 /* Main Content */
 main {
@@ -129,77 +219,87 @@ main .responsive-image {
   line-height: 1.8;
 }
 
-/* Footer */
 footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  color: #fff;
+  align-items: flex-start;
   padding: 20px 3%;
+  background-color: #fff; /* Clean white background */
+  border-top: 1px solid #ddd; /* Subtle divider */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 20px; /* Add space between sections */
 }
 
-footer .footer-left,
-footer .footer-right {
-  display: flex;
-  flex-direction: column;
+/* Left Section: Navigation Links */
+.footer-left {
+  flex: 1;
+  min-width: 200px; /* Ensure a minimum width for smaller screens */
 }
 
-footer a {
-  color: #fff;
+.footer-left ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-left ul li {
+  margin-bottom: 10px;
+}
+
+.footer-left ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer-left ul li a:hover {
+  color: #007BFF; /* Accent color for hover */
+}
+
+/* Right Section: Business Details */
+.footer-right {
+  flex: 1;
+  min-width: 200px; /* Ensure a minimum width for smaller screens */
+  text-align: right; /* Align text to the right */
+}
+
+.footer-right p {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.footer-right a {
+  color: #333;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-footer a:hover {
-  color: #007BFF;
+.footer-right a:hover {
+  color: #007BFF; /* Accent color for hover */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  /* Header Styling */
-  header {
-    position: relative; /* Allows absolutely positioned elements inside to align relative to header */
+  footer {
+    flex-direction: column; /* Stack sections vertically */
+    align-items: center; /* Center-align for mobile */
+    text-align: center;
   }
 
-  header img {
-    height: 40px; /* Standard navbar height for small screens */
+  .footer-left,
+  .footer-right {
+    text-align: center; /* Center-align content */
   }
 
-  .menu-toggle {
-    display: block;
-    position: absolute; 
-    top: 20px;
-    right: 20px;
-    z-index: 10000; /* Higher than the menu's z-index */
+  .footer-right p {
+    margin-bottom: 5px; /* Reduce spacing for mobile */
   }
+}
 
-  .nav-list {
-    display: none;
-    flex-direction: column;
-    background-color: #fff;
-    position: absolute;
-    top: 0;         
-    left: 0;        
-    width: 100%;    
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 9999;  /* Slightly lower than .menu-toggle */
-  }
 
-  .nav-list li {
-    margin-bottom: 10px;
-  }
-
-  .nav-list li:last-child {
-    margin-bottom: 0;
-  }
-
-  .menu-toggle.active + .nav-list {
-    display: flex; /* Show when toggle button is active */
-  }
-
+  @media (max-width: 768px) {
   /* Main Content */
   main .responsive-image {
     height: 75vh;
@@ -993,19 +1093,64 @@ footer a:hover {
     padding: 10px;
   }
 }
+/* Long Product Description Section */
+.long-description {
+  max-width: 1160px; /* Limit the width for better readability */
+  margin: 50px auto 20px; /* Center-align with space above and below */
+  padding: 20px;
+  background-color: #ffffff; /* Subtle background for separation */
+  border: 1px solid #838383; /* Light border for a clean look */
+}
+
+.long-description h2 {
+  font-size: 1.8rem; /* Slightly smaller than the main product title */
+  margin-bottom: 20px;
+  color: #000; /* Black for strong emphasis */
+  text-align: center; /* Center-align the heading */
+}
+
+.long-description p {
+  font-size: 1rem;
+  color: #666; /* Neutral color for easy readability */
+  line-height: 1.8; /* Improve text spacing for better readability */
+  margin-bottom: 15px; /* Add space between paragraphs */
+  text-align: justify; /* Justify text for a polished look */
+}
+
+.long-description p:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .long-description {
+    padding: 15px; /* Reduce padding for smaller screens */
+    margin: 30px auto; /* Adjust margins for mobile */
+  }
+
+  .long-description h2 {
+    font-size: 1.5rem; /* Smaller heading for mobile */
+  }
+
+  .long-description p {
+    font-size: 0.9rem; /* Slightly smaller text for better fit */
+  }
+}
 
 
 
 /* Login and Signup Container */
 .login-container,
-.signup-container {
-  max-width: 400px; /* Fixed width for the form */
+.signup-container,
+.recover-container,
+.reset-container {
+  max-width: 400px;
   margin: 50px auto;
   padding: 40px 20px;
-  border: 1px solid #ddd; /* Light border for separation */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  border-radius: 8px; /* Rounded corners for modern design */
-  background-color: #fff; /* White theme */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 .login-container h2,
@@ -1076,5 +1221,180 @@ form button:hover {
   form button {
     font-size: 0.9rem;
     padding: 10px 15px;
+  }
+}
+
+/* Form Links */
+.form-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.form-link a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.form-link a:hover {
+  color: #666;
+}
+
+.profile-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-sidebar {
+  flex: 0.25;
+  border-right: 1px solid #ddd;
+}
+
+.profile-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.profile-sidebar ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1rem;
+  padding: 10px;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.profile-sidebar ul li a:hover,
+.profile-sidebar ul li a.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.profile-content {
+  flex: 0.75;
+}
+
+.profile-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.profile-content form label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.profile-content form input,
+.profile-content form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  color: #000;
+}
+
+.profile-content form button {
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-content form button:hover {
+  background-color: #333;
+}
+
+/* Appointments Page Content */
+.appointments-upcoming, .appointments-past {
+  margin-bottom: 40px;
+}
+
+.appointments-upcoming h2, .appointments-past h2 {
+  font-size: 1.5rem;
+  color: #000;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #000; /* Add a line for separation */
+  padding-bottom: 5px;
+}
+
+.appointment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.appointment-list li {
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.appointment-list li:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.appointment-list p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.rebook-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #000;
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.rebook-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+      flex-direction: column;
+      padding: 10px;
+  }
+
+  .profile-sidebar {
+      margin-bottom: 20px;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+  }
+
+  .appointment-list li {
+      padding: 10px;
+  }
+
+  .rebook-button {
+      font-size: 0.9rem;
+      padding: 8px 10px;
   }
 }

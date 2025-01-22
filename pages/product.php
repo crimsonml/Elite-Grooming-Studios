@@ -13,6 +13,7 @@
     <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
 
     <main>
+        <!-- Product Container -->
         <div class="product-container">
             <!-- Product Image -->
             <div class="product-image">
@@ -42,6 +43,23 @@
                 <button class="buy-now-button">Buy Now</button>
             </div>
         </div>
+
+        <!-- Product Description Section -->
+        <section class="long-description">
+            <h2>About the Product</h2>
+            <p>
+                This premium beard oil is crafted with the finest natural ingredients to help you maintain a soft, healthy, and well-groomed beard. Whether you’re sporting a short stubble or a long, luxurious beard, this oil deeply conditions, hydrates, and tames your facial hair.
+            </p>
+            <p>
+                Packed with a blend of organic essential oils like argan oil, jojoba oil, and vitamin E, it nourishes the beard while promoting healthy hair growth. The lightweight, non-greasy formula absorbs quickly, leaving your beard feeling silky smooth without any residue.
+            </p>
+            <p>
+                Enjoy the subtle, masculine scent designed to complement your grooming routine. Our beard oil is free from parabens, sulfates, and artificial fragrances, making it perfect for all skin types.
+            </p>
+            <p>
+                Directions for use: Dispense a few drops into your palms, rub your hands together, and massage into your beard and skin beneath. Comb through for even distribution and style as desired.
+            </p>
+        </section>
     </main>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
