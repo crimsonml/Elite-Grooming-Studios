@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <header>
     <!-- Website Logo -->
     <img src="/EGS/assets/images/1.png" alt="Elite Grooming Studio Logo" />
@@ -17,6 +18,9 @@
                     <span class="cart-bubble">3</span>
                 </a>
             </li>
+            <?php if (isset($_SESSION['username'])): ?>
+                <li><a href="/EGS/profile/index.php"><?= htmlspecialchars($_SESSION['username']) ?></a></li>
+            <?php endif; ?>
             <li>
                 <!-- Login Icon -->
                 <a href="/EGS/pages/login.php" class="login-icon">

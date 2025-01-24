@@ -12,14 +12,7 @@
     <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
 
     <main class="profile-container">
-        <div class="profile-sidebar">
-            <ul>
-                <li><a href="/EGS/profile/settings.php">Profile Settings</a></li>
-                <li><a href="/EGS/profile/orders.php" class="active">Order History</a></li>
-                <li><a href="/EGS/profile/appointments.php">Appointment History</a></li>
-                <li><a href="/EGS/profile/logout.php" class="logout">Logout</a></li>
-            </ul>
-        </div>
+        <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/profile/sidebar.php'; ?>
 
         <div class="profile-content">
             <h1>Order History</h1>
