@@ -10,10 +10,34 @@
 
 <body>
     <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
     <main>
         <div class="signup-container">
             <h2>Signup</h2>
-            <form id="signup-form">
+
+            <!-- Form Handling -->
+            <?php
+            $message = '';
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $fullName = $_POST['fullname'];
+                $email = $_POST['email'];
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $confirmPassword = $_POST['confirm-password'];
+
+                // Call the signup function
+                $result = registerUser($fullName, $email, $username, $password, $confirmPassword);
+                $message = $result['message'];
+            }
+            ?>
+
+            <!-- Display Success/Error Messages -->
+            <?php if ($message): ?>
+                <p class="form-message"><?= htmlspecialchars($message) ?></p>
+            <?php endif; ?>
+
+            <!-- Signup Form -->
+            <form id="signup-form" method="POST" action="">
                 <label for="fullname">Full Name:</label>
                 <input type="text" id="fullname" name="fullname" required />
 

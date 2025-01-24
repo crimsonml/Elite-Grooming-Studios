@@ -10,10 +10,40 @@
 
 <body>
   <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
+
   <main>
     <div class="login-container">
       <h2>Login</h2>
-      <form id="login-form">
+
+      <!-- Form Handling -->
+      <?php
+      $message = '';
+
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = htmlspecialchars($_POST['username']); // Sanitize input
+        $password = $_POST['password'];
+
+        // Call the login function
+        $result = loginUser($username, $password);
+
+        if ($result['success']) {
+          // Redirect to the dashboard or home page on success
+          header("Location: /EGS/index.php");
+          exit();
+        } else {
+          $message = $result['message']; // Display error message
+        }
+      }
+      ?>
+
+      <!-- Display Error Message -->
+      <?php if ($message): ?>
+        <p class="form-message"><?= htmlspecialchars($message) ?></p>
+      <?php endif; ?>
+
+      <!-- Login Form -->
+      <form id="login-form" method="POST" action="">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required />
 
@@ -36,6 +66,7 @@
       </p>
     </div>
   </main>
+
   <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
