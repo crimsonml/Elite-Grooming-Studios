@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Cart</title>
   <link rel="stylesheet" href="/EGS/assets/css/style.css" />
-  <!-- Font Awesome for icons -->
+  <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon"> <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 

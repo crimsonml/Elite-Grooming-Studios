@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup - Elite Grooming Studio</title>
     <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+    <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
