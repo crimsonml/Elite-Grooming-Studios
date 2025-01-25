@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
     <?php
-    require $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
 
     $userDetails = getUserDetails($_SESSION['user_id']);
 
@@ -26,7 +26,7 @@
     }
     ?>
     <main class="profile-container">
-        <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/profile/sidebar.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/profile/sidebar.php'; ?>
 
         <div class="profile-content">
             <h1>Profile Settings</h1>
@@ -40,23 +40,23 @@
             <?php endif; ?>
             <form action="" method="POST" enctype="multipart/form-data">
                 <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" value="<?= htmlspecialchars($userDetails['full_name']) ?>" required>
+                <input type="text" id="name" name="name" value="<?= htmlspecialchars($userDetails['full_name']) ?>" require_onced>
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($userDetails['email']) ?>" required>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($userDetails['email']) ?>" require_onced>
 
                 <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" value="<?= htmlspecialchars($userDetails['phone']) ?>" required>
+                <input type="tel" id="phone" name="phone" value="<?= htmlspecialchars($userDetails['phone']) ?>" require_onced>
 
                 <label for="address">Address:</label>
-                <textarea id="address" name="address" required><?= htmlspecialchars($userDetails['address']) ?></textarea>
+                <textarea id="address" name="address" require_onced><?= htmlspecialchars($userDetails['address']) ?></textarea>
 
                 <button type="submit">Update Profile</button>
             </form>
         </div>
     </main>
 
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

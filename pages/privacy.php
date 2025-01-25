@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
   <main>
     <div class="privacy-container">
       <h2>Privacy Policy</h2>
@@ -68,7 +68,7 @@
       </p>
     </div>
   </main>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

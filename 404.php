@@ -47,7 +47,7 @@
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
   <main>
     <div class="error-container">
       <h1>404</h1>
@@ -56,7 +56,7 @@
       <a href="/EGS/index.html">Go to Home</a>
     </div>
   </main>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

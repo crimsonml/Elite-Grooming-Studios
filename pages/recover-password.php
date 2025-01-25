@@ -10,13 +10,13 @@
 </head>
 
 <body>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
     <main>
         <div class="recover-container">
             <h2>Recover Password</h2>
             <form id="recover-form">
                 <label for="email">Enter your email address:</label>
-                <input type="email" id="email" name="email" required />
+                <input type="email" id="email" name="email" require_onced />
 
                 <button type="submit">Send OTP</button>
             </form>
@@ -27,7 +27,7 @@
             </p>
         </div>
     </main>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
     <script>
         const recoverForm = document.getElementById("recover-form");
         const otpSentMessage = document.getElementById("otp-sent-message");

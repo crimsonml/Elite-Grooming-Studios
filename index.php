@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
   <main>
     <div class="hero-image-container">
       <img src="/EGS/assets/images/Best-Salon-DesignCrop.jpg" class="responsive-image" />
@@ -49,7 +49,7 @@
       </p>
     </div>
   </main>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

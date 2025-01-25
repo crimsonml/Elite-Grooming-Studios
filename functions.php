@@ -147,3 +147,219 @@ function updateUserDetails($userId, $fullName, $email, $phone, $address)
         return ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
     }
 }
+
+function changeUserPassword($userId, $currentPassword, $newPassword)
+{
+    $pdo = connectDB();
+
+    try {
+        // Get the current password hash from the database
+        $sql = "SELECT password FROM users WHERE user_id = :user_id LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':user_id' => $userId]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($currentPassword, $user['password'])) {
+            // Hash the new password
+            $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+            // Update the password in the database
+            $sql = "UPDATE users SET password = :password WHERE user_id = :user_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':password' => $hashedPassword,
+                ':user_id' => $userId
+            ]);
+
+            return ['success' => true, 'message' => 'Password updated successfully'];
+        } else {
+            return ['success' => false, 'message' => 'Current password is incorrect'];
+        }
+    } catch (PDOException $e) {
+        return ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
+    }
+}
+function logoutUser()
+{
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location: /EGS/pages/login.php");
+    exit();
+}
+
+function recordAppointment($userId, $name, $email, $phone, $preferredDate, $preferredTime, $service)
+{
+    $pdo = connectDB();
+
+    try {
+        $sql = "INSERT INTO appointments (user_id, name, email, phone, preferred_date, preferred_time, service) 
+                VALUES (:user_id, :name, :email, :phone, :preferred_date, :preferred_time, :service)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':user_id' => $userId,
+            ':name' => $name,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':preferred_date' => $preferredDate,
+            ':preferred_time' => $preferredTime,
+            ':service' => $service
+        ]);
+
+        return ['success' => true, 'message' => 'Appointment booked successfully'];
+    } catch (PDOException $e) {
+        return ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
+    }
+}
+
+function getItems($page = 1, $itemsPerPage = 20)
+{
+    $pdo = connectDB();
+
+    try {
+        $offset = ($page - 1) * $itemsPerPage;
+        $sql = "SELECT * FROM items ORDER BY item_name ASC LIMIT :limit OFFSET :offset";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+function getItemDetails($itemId)
+{
+    $pdo = connectDB();
+
+    try {
+        $sql = "SELECT * FROM items WHERE item_id = :item_id LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':item_id' => $itemId]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+function addToCart($itemId, $quantity = 1)
+{
+    $pdo = connectDB();
+
+    if (isset($_SESSION['user_id'])) {
+        // User is logged in, store cart items in the database
+        $userId = $_SESSION['user_id'];
+
+        try {
+            // Check if the user has a cart
+            $sql = "SELECT cart_id FROM carts WHERE user_id = :user_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':user_id' => $userId]);
+            $cart = $stmt->fetch();
+
+            if (!$cart) {
+                // Create a new cart for the user
+                $sql = "INSERT INTO carts (user_id) VALUES (:user_id)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':user_id' => $userId]);
+                $cartId = $pdo->lastInsertId();
+            } else {
+                $cartId = $cart['cart_id'];
+            }
+
+            // Check if the item is already in the cart
+            $sql = "SELECT * FROM cart_items WHERE cart_id = :cart_id AND item_id = :item_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':cart_id' => $cartId, ':item_id' => $itemId]);
+            $cartItem = $stmt->fetch();
+
+            if ($cartItem) {
+                // Update the quantity if the item is already in the cart
+                $sql = "UPDATE cart_items SET quantity = quantity + :quantity WHERE cart_id = :cart_id AND item_id = :item_id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':quantity' => $quantity, ':cart_id' => $cartId, ':item_id' => $itemId]);
+            } else {
+                // Insert the new item into the cart
+                $sql = "INSERT INTO cart_items (cart_id, item_id, quantity) VALUES (:cart_id, :item_id, :quantity)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':cart_id' => $cartId, ':item_id' => $itemId, ':quantity' => $quantity]);
+            }
+
+            return ['success' => true, 'message' => 'Item added to cart'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
+        }
+    } else {
+        // User is not logged in, store cart items in the session
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        if (isset($_SESSION['cart'][$itemId])) {
+            $_SESSION['cart'][$itemId] += $quantity;
+        } else {
+            $_SESSION['cart'][$itemId] = $quantity;
+        }
+
+        return ['success' => true, 'message' => 'Item added to cart'];
+    }
+}
+
+function getCartItems()
+{
+    $pdo = connectDB();
+
+    if (isset($_SESSION['user_id'])) {
+        // User is logged in, retrieve cart items from the database
+        $userId = $_SESSION['user_id'];
+
+        try {
+            $sql = "SELECT ci.item_id, ci.quantity, i.item_name, i.price, i.image_location
+                    FROM cart_items ci
+                    JOIN items i ON ci.item_id = i.item_id
+                    JOIN carts c ON ci.cart_id = c.cart_id
+                    WHERE c.user_id = :user_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':user_id' => $userId]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return false;
+        }
+    } else {
+        // User is not logged in, retrieve cart items from the session
+        if (!isset($_SESSION['cart'])) {
+            return [];
+        }
+
+        $cartItems = [];
+        foreach ($_SESSION['cart'] as $itemId => $quantity) {
+            try {
+                $sql = "SELECT item_id, item_name, price, image_location FROM items WHERE item_id = :item_id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':item_id' => $itemId]);
+                $item = $stmt->fetch();
+                if ($item) {
+                    $item['quantity'] = $quantity;
+                    $cartItems[] = $item;
+                }
+            } catch (PDOException $e) {
+                return false;
+            }
+        }
+
+        return $cartItems;
+    }
+}
+
+function getCartItemCount()
+{
+    $cartItems = getCartItems();
+    $totalQuantity = 0;
+
+    foreach ($cartItems as $item) {
+        $totalQuantity += $item['quantity'];
+    }
+
+    return $totalQuantity;
+}

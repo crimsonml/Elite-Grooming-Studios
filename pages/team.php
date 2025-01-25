@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
 
   <body>
     <h2 class="team-heading">Our Team</h2>
@@ -130,7 +130,7 @@
       </div>
     </div>
   </body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

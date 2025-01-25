@@ -20,13 +20,13 @@
                 "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e",
                 "shasum": ""
             },
-            "require": {
+            "require_once": {
                 "ext-ctype": "*",
                 "ext-filter": "*",
                 "ext-hash": "*",
                 "php": ">=5.5.0"
             },
-            "require-dev": {
+            "require_once-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
                 "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",

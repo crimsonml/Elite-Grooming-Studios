@@ -10,8 +10,8 @@
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
 
   <main>
     <div class="login-container">
@@ -46,10 +46,10 @@
       <!-- Login Form -->
       <form id="login-form" method="POST" action="">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
+        <input type="text" id="username" name="username" require_onced />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" name="password" require_onced />
 
         <button type="submit">Login</button>
       </form>
@@ -68,7 +68,7 @@
     </div>
   </main>
 
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>
