@@ -6,25 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elite Grooming Studio</title>
   <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+  <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
   <main>
     <div class="contact-container">
       <h3>Contact us through the website</h3>
       <form id="contact-form">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+        <input type="text" id="name" name="name" require_onced />
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" require_onced />
 
         <label for="phone">Phone Number (optional):</label>
         <input type="tel" id="phone" name="phone" />
 
         <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
+        <textarea id="message" name="message" require_onced></textarea>
 
         <button type="submit">Send Message</button>
       </form>
@@ -39,7 +40,7 @@
       </div>
     </div>
   </main>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

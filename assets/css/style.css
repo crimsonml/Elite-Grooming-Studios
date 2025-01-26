@@ -416,6 +416,15 @@ footer {
   margin-bottom: 15px;
 }
 
+.product-link {
+  text-decoration: none;
+  color: inherit; /* Ensure the text color is inherited */
+}
+
+.product-link:hover {
+  text-decoration: none; /* Ensure no underline on hover */
+}
+
 .product-info h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
@@ -454,20 +463,44 @@ footer {
 /* Responsive Grid for Products */
 @media (max-width: 992px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 products per row on tablets */
+    grid-template-columns: repeat(2, 1fr); /* 2 products per row on tablets and mobile */
   }
 }
 
 @media (max-width: 600px) {
   .product-grid {
-    grid-template-columns: 1fr; /* 1 product per row on mobile */
+    grid-template-columns: repeat(2, 1fr); /* 2 products per row on mobile */
+  }
+
+  .product-info p {
+    display: none; /* Hide description on mobile */
+  }
+
+  .product-info h3 {
+    font-size: 1.2rem; /* Adjust heading size for smaller screens */
+  }
+
+  .product-info .price {
+    font-size: 1rem; /* Adjust price size for smaller screens */
+  }
+
+  .add-to-cart {
+    font-size: 14px; /* Adjust button font size for smaller screens */
+    padding: 8px 16px; /* Adjust button padding for smaller screens */
+  }
+
+  .shop-container{
+    padding: 10px;
   }
 
   .shop-container h2 {
-    font-size: 2rem; /* Adjust heading size for smaller screens */
+    font-size: 1.5rem; /* Adjust heading size for smaller screens */
+  }
+
+  .product-grid {
+    gap: 10px; /* Reduce gap between products for better fit on mobile */
   }
 }
-
 /* Appointment Page Styling */
 .appointment-container {
   padding: 50px 3%; /* Add spacing around the appointment container */
@@ -1397,4 +1430,30 @@ form button:hover {
       font-size: 0.9rem;
       padding: 8px 10px;
   }
+}
+/* Pagination Styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  margin: 0 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+.pagination a.active {
+  background-color: #007BFF;
+  color: #fff;
+  border-color: #007BFF;
 }

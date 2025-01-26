@@ -6,46 +6,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elite Grooming Studio</title>
   <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+  <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
+
+  // Get the current page number from the query string, default to 1 if not set
+  $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+  // Retrieve items for the current page
+  $items = getItems($page);
+
+  // Calculate the total number of pages
+  $totalItems = count($items);
+  $itemsPerPage = 20;
+  $totalPages = ceil($totalItems / $itemsPerPage);
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
+    $result = addToCart($itemId);
+  }
+  ?>
   <main>
     <div class="shop-container">
       <h2>Our Products</h2>
       <div class="product-grid">
-        <div class="product">
-          <img src="/EGS/assets/images/tools.jpg" alt="Product 1" />
-          <div class="product-info">
-            <h3>Product 1</h3>
-            <p>High-quality grooming product for your daily needs.</p>
-            <p class="price">$19.99</p>
-            <button class="add-to-cart">Add to Cart</button>
+        <?php foreach ($items as $item): ?>
+          <div class="product">
+            <a href="/EGS/pages/product.php?id=<?= htmlspecialchars($item['item_id']) ?>" class="product-link">
+              <img src="/EGS/assets/itemphotos/<?= htmlspecialchars($item['image_location']) ?>" alt="<?= htmlspecialchars($item['item_name']) ?>" />
+              <div class="product-info">
+                <h3><?= htmlspecialchars($item['item_name']) ?></h3>
+                <p><?= htmlspecialchars($item['small_description']) ?></p>
+                <p class="price">$<?= htmlspecialchars($item['price']) ?></p>
+              </div>
+            </a>
+            <form method="POST" action="">
+              <input type="hidden" name="item_id" value="<?= htmlspecialchars($item['item_id']) ?>">
+              <button type="submit" name="add_to_cart" class="add-to-cart-button">Add to Cart</button>
+            </form>
           </div>
-        </div>
-        <div class="product">
-          <img src="/EGS/assets/images/oil.jpg" alt="Product 2" />
-          <div class="product-info">
-            <h3>Product 2</h3>
-            <p>Premium beard oil for a smooth and shiny beard.</p>
-            <p class="price">$24.99</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-        <div class="product">
-          <img src="/EGS/assets/images/cream.jpg" alt="Product 3" />
-          <div class="product-info">
-            <h3>Product 3</h3>
-            <p>Luxury shaving cream for a close and comfortable shave.</p>
-            <p class="price">$14.99</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
+        <?php endforeach; ?>
+      </div>
+      <!-- Pagination -->
+      <div class="pagination">
+        <?php if ($page > 1): ?>
+          <a href="?page=<?= $page - 1 ?>">&laquo; Previous</a>
+        <?php endif; ?>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+          <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
+        <?php endfor; ?>
+        <?php if ($page < $totalPages): ?>
+          <a href="?page=<?= $page + 1 ?>">Next &raquo;</a>
+        <?php endif; ?>
       </div>
     </div>
   </main>
 
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elite Grooming Studio</title>
   <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+  <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
 
   <body>
     <h2 class="team-heading">Our Team</h2>
@@ -129,7 +130,7 @@
       </div>
     </div>
   </body>
-  <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

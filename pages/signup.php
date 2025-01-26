@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup - Elite Grooming Studio</title>
     <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+    <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
     <main>
         <div class="signup-container">
             <h2>Signup</h2>
@@ -39,19 +40,19 @@
             <!-- Signup Form -->
             <form id="signup-form" method="POST" action="">
                 <label for="fullname">Full Name:</label>
-                <input type="text" id="fullname" name="fullname" required />
+                <input type="text" id="fullname" name="fullname" require_onced />
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required />
+                <input type="email" id="email" name="email" require_onced />
 
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required />
+                <input type="text" id="username" name="username" require_onced />
 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required />
+                <input type="password" id="password" name="password" require_onced />
 
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required />
+                <input type="password" id="confirm-password" name="confirm-password" require_onced />
 
                 <button type="submit">Signup</button>
             </form>
@@ -62,7 +63,7 @@
             </p>
         </div>
     </main>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
 </body>
 
 </html>

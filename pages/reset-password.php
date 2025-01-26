@@ -6,25 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reset Password - Elite Grooming Studio</title>
     <link rel="stylesheet" href="/EGS/assets/css/style.css" />
+    <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
     <main>
         <div class="reset-container">
             <h2>Reset Password</h2>
             <form id="reset-form">
                 <label for="new-password">New Password:</label>
-                <input type="password" id="new-password" name="new-password" required />
+                <input type="password" id="new-password" name="new-password" require_onced />
 
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required />
+                <input type="password" id="confirm-password" name="confirm-password" require_onced />
 
                 <button type="submit">Reset Password</button>
             </form>
         </div>
     </main>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
     <script>
         const resetForm = document.getElementById("reset-form");
 
