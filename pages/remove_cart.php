@@ -25,7 +25,8 @@ if (isset($_SESSION['user_id'])) {
             $sql = "DELETE FROM cart_items WHERE cart_id = :cart_id AND item_id = :item_id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([':cart_id' => $cartId, ':item_id' => $itemId]);
-            echo json_encode(['success' => true]);
+            $cartItemCount = getCartItemCount();
+            echo json_encode(['success' => true, 'cartItemCount' => $cartItemCount]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Cart not found']);
         }
@@ -36,7 +37,8 @@ if (isset($_SESSION['user_id'])) {
     // User is not logged in, remove cart item from the session
     if (isset($_SESSION['cart'][$itemId])) {
         unset($_SESSION['cart'][$itemId]);
-        echo json_encode(['success' => true]);
+        $cartItemCount = getCartItemCount();
+        echo json_encode(['success' => true, 'cartItemCount' => $cartItemCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Item not found in cart']);
     }

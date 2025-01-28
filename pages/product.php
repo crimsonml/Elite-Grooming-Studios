@@ -20,11 +20,6 @@
 
     // Retrieve item details
     $item = getItemDetails($itemId);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-        $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
-        $result = addToCart($itemId, $quantity);
-    }
     ?>
     <main>
         <?php if ($item): ?>
@@ -42,7 +37,7 @@
                     <p class="product-price">$<?= htmlspecialchars($item['price']) ?></p>
 
                     <!-- Action Buttons -->
-                    <form method="POST" action="">
+                    <form id="add-to-cart-form" method="POST" action="">
                         <div class="product-actions">
                             <button type="button" class="quantity-button decrease">
                                 <i class="fas fa-minus"></i>
@@ -53,7 +48,7 @@
                             </button>
                         </div>
 
-                        <button type="submit" name="add_to_cart" class="add-to-cart-button">Add to Cart</button>
+                        <button type="button" id="add-to-cart-button" class="add-to-cart-button">Add to Cart</button>
                     </form>
                 </div>
             </div>
@@ -74,6 +69,8 @@
             const decreaseButton = document.querySelector('.quantity-button.decrease');
             const increaseButton = document.querySelector('.quantity-button.increase');
             const quantityInput = document.querySelector('.quantity');
+            const addToCartButton = document.getElementById('add-to-cart-button');
+            const cartBubble = document.querySelector('.cart-bubble');
 
             decreaseButton.addEventListener('click', function() {
                 let quantity = parseInt(quantityInput.value);
@@ -85,6 +82,37 @@
             increaseButton.addEventListener('click', function() {
                 let quantity = parseInt(quantityInput.value);
                 quantityInput.value = quantity + 1;
+            });
+
+            addToCartButton.addEventListener('click', function() {
+                const itemId = <?= $itemId ?>;
+                const quantity = parseInt(quantityInput.value);
+
+                fetch('/EGS/pages/add_to_cart.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            itemId,
+                            quantity
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (cartBubble) {
+                                cartBubble.textContent = data.cartItemCount;
+                            } else {
+                                const newCartBubble = document.createElement('span');
+                                newCartBubble.classList.add('cart-bubble');
+                                newCartBubble.textContent = data.cartItemCount;
+                                document.querySelector('.cart-icon').appendChild(newCartBubble);
+                            }
+                        } else {
+                            alert(data.message);
+                        }
+                    });
             });
         });
     </script>
