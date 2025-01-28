@@ -63,6 +63,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       const cartItems = document.querySelectorAll('.cart-item');
       const cartTotalPrice = document.getElementById('cart-total-price');
+      const cartBubble = document.querySelector('.cart-bubble');
 
       function updateCartTotal() {
         let total = 0;
@@ -72,6 +73,23 @@
           total += price * quantity;
         });
         cartTotalPrice.textContent = total.toFixed(2);
+      }
+
+      function updateCartBubble() {
+        fetch('/EGS/pages/add_to_cart.php?action=get_cart_count')
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              if (cartBubble) {
+                cartBubble.textContent = data.cartItemCount;
+              } else {
+                const newCartBubble = document.createElement('span');
+                newCartBubble.classList.add('cart-bubble');
+                newCartBubble.textContent = data.cartItemCount;
+                document.querySelector('.cart-icon').appendChild(newCartBubble);
+              }
+            }
+          });
       }
 
       cartItems.forEach(item => {
@@ -115,6 +133,7 @@
         }).then(response => response.json()).then(data => {
           if (data.success) {
             updateCartTotal();
+            updateCartBubble();
           }
         });
       }
@@ -132,11 +151,13 @@
         }).then(response => response.json()).then(data => {
           if (data.success) {
             updateCartTotal();
+            updateCartBubble();
           }
         });
       }
 
       updateCartTotal();
+      updateCartBubble();
     });
   </script>
 </body>

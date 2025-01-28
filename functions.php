@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/db_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/secrets.php';
 
 function connectDB()
 {

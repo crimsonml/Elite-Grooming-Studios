@@ -14,9 +14,15 @@
   <?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
 
+  $userEmail = '';
+  if (isset($_SESSION['user_id'])) {
+    $userDetails = getUserDetails($_SESSION['user_id']);
+    $userEmail = $userDetails['email'];
+  }
+
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
-    $email = $_POST['email'];
+    $email = isset($_SESSION['user_id']) ? $userEmail : $_POST['email'];
     $phone = $_POST['phone'];
     $preferredDate = $_POST['date'];
     $preferredTime = $_POST['time'];
@@ -35,22 +41,26 @@
       <?php endif; ?>
       <form id="appointment-form" method="POST" action="">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" require_onced />
+        <input type="text" id="name" name="name" required />
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" require_onced />
+        <?php if (!isset($_SESSION['user_id'])): ?>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        <?php else: ?>
+          <input type="hidden" id="email" name="email" value="<?= htmlspecialchars($userEmail) ?>" />
+        <?php endif; ?>
 
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" require_onced />
+        <input type="tel" id="phone" name="phone" required />
 
         <label for="date">Preferred Date:</label>
-        <input type="date" id="date" name="date" require_onced />
+        <input type="date" id="date" name="date" required />
 
         <label for="time">Preferred Time:</label>
-        <input type="time" id="time" name="time" require_onced />
+        <input type="time" id="time" name="time" required />
 
         <label for="service">Service:</label>
-        <select id="service" name="service" require_onced>
+        <select id="service" name="service" required>
           <option value="haircut">Haircut</option>
           <option value="beard-trim">Beard Trim</option>
           <option value="full-grooming">Full Grooming</option>

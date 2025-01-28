@@ -26,7 +26,8 @@ if (isset($_SESSION['user_id'])) {
             $sql = "UPDATE cart_items SET quantity = :quantity WHERE cart_id = :cart_id AND item_id = :item_id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([':quantity' => $quantity, ':cart_id' => $cartId, ':item_id' => $itemId]);
-            echo json_encode(['success' => true]);
+            $cartItemCount = getCartItemCount();
+            echo json_encode(['success' => true, 'cartItemCount' => $cartItemCount]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Cart not found']);
         }
@@ -37,7 +38,8 @@ if (isset($_SESSION['user_id'])) {
     // User is not logged in, update cart item quantity in the session
     if (isset($_SESSION['cart'][$itemId])) {
         $_SESSION['cart'][$itemId] = $quantity;
-        echo json_encode(['success' => true]);
+        $cartItemCount = getCartItemCount();
+        echo json_encode(['success' => true, 'cartItemCount' => $cartItemCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Item not found in cart']);
     }

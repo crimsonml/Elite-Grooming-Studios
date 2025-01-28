@@ -24,11 +24,6 @@
   $totalItems = count($items);
   $itemsPerPage = 20;
   $totalPages = ceil($totalItems / $itemsPerPage);
-
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
-    $result = addToCart($itemId);
-  }
   ?>
   <main>
     <div class="shop-container">
@@ -46,7 +41,7 @@
             </a>
             <form method="POST" action="">
               <input type="hidden" name="item_id" value="<?= htmlspecialchars($item['item_id']) ?>">
-              <button type="submit" name="add_to_cart" class="add-to-cart-button">Add to Cart</button>
+              <button type="button" class="add-to-cart-button" data-item-id="<?= htmlspecialchars($item['item_id']) ?>">Add to Cart</button>
             </form>
           </div>
         <?php endforeach; ?>
@@ -67,6 +62,45 @@
   </main>
 
   <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/footer.php'; ?>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
+      const cartBubble = document.querySelector('.cart-bubble');
+
+      addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const itemId = this.getAttribute('data-item-id');
+          const quantity = 1; // Default quantity for shop page
+
+          fetch('/EGS/pages/add_to_cart.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                itemId,
+                quantity
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                if (cartBubble) {
+                  cartBubble.textContent = data.cartItemCount;
+                } else {
+                  const newCartBubble = document.createElement('span');
+                  newCartBubble.classList.add('cart-bubble');
+                  newCartBubble.textContent = data.cartItemCount;
+                  document.querySelector('.cart-icon').appendChild(newCartBubble);
+                }
+              } else {
+                alert(data.message);
+              }
+            });
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
