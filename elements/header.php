@@ -1,5 +1,9 @@
-<?php session_start(); ?>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php'; ?>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
+?>
 <header>
     <!-- Website Logo -->
     <img src="/EGS/assets/images/1.png" alt="Elite Grooming Studio Logo" />

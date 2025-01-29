@@ -88,6 +88,7 @@ function loginUser($username, $password)
                 session_start();
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username']; // Save username in session
+                $_SESSION['email'] = $user['email']; // Save email in session
                 $_SESSION['role'] = $user['role']; // Useful for admin pages
 
                 return ['success' => true, 'message' => 'Login successful'];
@@ -362,4 +363,78 @@ function getCartItemCount()
     }
 
     return $totalQuantity;
+}
+
+function storeOrder($userId, $totalAmount, $cartItems)
+{
+    $pdo = connectDB();
+
+    try {
+        // Insert order
+        $sql = "INSERT INTO orders (user_id, total_amount, order_status) VALUES (:user_id, :total_amount, 'Pending')";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':user_id' => $userId, ':total_amount' => $totalAmount]);
+        $orderId = $pdo->lastInsertId();
+
+        // Insert order items
+        foreach ($cartItems as $item) {
+            $sql = "INSERT INTO order_items (order_id, item_id, item_name, price, quantity, subtotal) VALUES (:order_id, :item_id, :item_name, :price, :quantity, :subtotal)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':order_id' => $orderId,
+                ':item_id' => $item['item_id'],
+                ':item_name' => $item['item_name'],
+                ':price' => $item['price'],
+                ':quantity' => $item['quantity'],
+                ':subtotal' => $item['price'] * $item['quantity']
+            ]);
+        }
+
+        return $orderId;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+function clearCart($userId)
+{
+    $pdo = connectDB();
+
+    try {
+        if ($userId) {
+            // User is logged in, clear cart items from the database
+            $sql = "SELECT cart_id FROM carts WHERE user_id = :user_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':user_id' => $userId]);
+            $cart = $stmt->fetch();
+
+            if ($cart) {
+                $cartId = $cart['cart_id'];
+
+                // Delete cart items
+                $sql = "DELETE FROM cart_items WHERE cart_id = :cart_id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':cart_id' => $cartId]);
+            }
+        } else {
+            // User is not logged in, clear cart items from the session
+            unset($_SESSION['cart']);
+        }
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+function getOrderDetails($orderId)
+{
+    $pdo = connectDB();
+
+    try {
+        $sql = "SELECT * FROM orders WHERE order_id = :order_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':order_id' => $orderId]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return false;
+    }
 }
