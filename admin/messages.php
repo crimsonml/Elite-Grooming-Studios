@@ -1,3 +1,8 @@
+<?php
+require_once 'adminFunctions.php';
+$messages = fetchMessages($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +23,7 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="messages.php">Messages</a></li>
                 <li><a href="users.php">Users</a></li>
+                <li><a href="appointments.php">Appointments</a></li>
                 <li><a href="/EGS/pages/login.php">Logout</a></li>
             </ul>
         </nav>
@@ -29,10 +35,19 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Contact Number</th>
                 <th>Message</th>
                 <th>Date</th>
             </tr>
-            <!-- Messages here -->
+            <?php foreach ($messages as $message): ?>
+                <tr>
+                    <td><?= htmlspecialchars($message['name']) ?></td>
+                    <td><?= htmlspecialchars($message['email']) ?></td>
+                    <td><?= htmlspecialchars($message['contact']) ?></td>
+                    <td><?= htmlspecialchars($message['message']) ?></td>
+                    <td><?= htmlspecialchars($message['date']) ?></td>
+                </tr>
+            <?php endforeach; ?>
         </table>
     </main>
 </body>

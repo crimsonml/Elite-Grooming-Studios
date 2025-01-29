@@ -19,6 +19,7 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="messages.php">Messages</a></li>
                 <li><a href="users.php">Users</a></li>
+                <li><a href="appointments.php">Appointments</a></li>
                 <li><a href="/EGS/pages/login.php">Logout</a></li>
             </ul>
         </nav>

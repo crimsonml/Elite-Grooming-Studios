@@ -1,3 +1,8 @@
+<?php
+require_once 'adminFunctions.php';
+$users = fetchUsers($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +23,7 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="messages.php">Messages</a></li>
                 <li><a href="users.php">Users</a></li>
+                <li><a href="appointments.php">Appointments</a></li>
                 <li><a href="/EGS/pages/login.php">Logout</a></li>
             </ul>
         </nav>
@@ -32,7 +38,14 @@
                 <th>Email</th>
                 <th>Registered On</th>
             </tr>
-            <!-- User list here -->
+            <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['user_id']) ?></td>
+                    <td><?= htmlspecialchars($user['full_name']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td><?= htmlspecialchars($user['created_at']) ?></td>
+                </tr>
+            <?php endforeach; ?>
         </table>
     </main>
 </body>
