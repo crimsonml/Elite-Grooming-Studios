@@ -1,8 +1,8 @@
 <?php
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'egs');
-define('DB_USER', 'root'); // Replace with your MySQL username
-define('DB_PASS', '');     // Replace with your MySQL password
+define('DB_USER', 'root');
+define('DB_PASS', '');
 
 // Stripe API keys
 define('STRIPE_SECRET_KEY', 'sk_test_51OXpKeDss4ge2svjj91fMoX1sviWjXj2NJA4mKlSrlutOJoic3ncoJ1IfjKRrkZWP1eAPPezIaSmRIcVJEBXrhhR00wBVE9YUr');
