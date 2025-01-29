@@ -1457,3 +1457,72 @@ form button:hover {
   color: #fff;
   border-color: #007BFF;
 }
+
+/* Order Success Container */
+.success-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Order Success Heading */
+.success-container h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+/* Order Details */
+.success-container p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Order Total Styling */
+.order-total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  margin-top: 10px;
+}
+
+/* Continue Shopping Button */
+.continue-shopping {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000;
+  text-decoration: none;
+  border: 1px solid #000;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.continue-shopping:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .success-container {
+    padding: 30px 15px;
+  }
+
+  .success-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .continue-shopping {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}

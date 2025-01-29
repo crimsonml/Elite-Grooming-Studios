@@ -53,7 +53,9 @@
         <!-- Cart Total -->
         <div class="cart-total">
           <h3>Total: $<span id="cart-total-price">0.00</span></h3>
-          <button class="checkout-button">Proceed to Checkout</button>
+          <form action="/EGS/pages/checkout.php" method="POST">
+            <button type="submit" class="checkout-button">Proceed to Checkout</button>
+          </form>
         </div>
       </div>
     </div>
