@@ -1,3 +1,47 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /EGS/pages/login.php");
+    exit();
+}
+
+$userId = $_SESSION['user_id'];
+$appointments = fetchAppointmentsByUserId($userId);
+
+$upcomingAppointments = [];
+$pastAppointments = [];
+
+foreach ($appointments as $appointment) {
+    if (isUpcoming($appointment) && $appointment['status'] === 'Upcoming') {
+        $upcomingAppointments[] = $appointment;
+    } else {
+        $pastAppointments[] = $appointment;
+    }
+}
+
+function fetchAppointmentsByUserId($userId)
+{
+    $pdo = connectDB();
+
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM appointments WHERE user_id = :user_id ORDER BY preferred_date, preferred_time");
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+function isUpcoming($appointment)
+{
+    $currentDateTime = new DateTime();
+    $appointmentDateTime = new DateTime($appointment['preferred_date'] . ' ' . $appointment['preferred_time']);
+    return $appointmentDateTime >= $currentDateTime;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,20 +65,18 @@
             <section class="appointments-upcoming">
                 <h2>Upcoming Appointments</h2>
                 <ul class="appointment-list">
-                    <li>
-                        <p><strong>Service:</strong> Haircut</p>
-                        <p><strong>Date:</strong> 2024-02-10</p>
-                        <p><strong>Time:</strong> 2:30 PM</p>
-                        <p><strong>Stylist:</strong> John Doe</p>
-                        <p><strong>Status:</strong> Upcoming</p>
-                    </li>
-                    <li>
-                        <p><strong>Service:</strong> Beard Trim</p>
-                        <p><strong>Date:</strong> 2024-02-12</p>
-                        <p><strong>Time:</strong> 4:00 PM</p>
-                        <p><strong>Stylist:</strong> Michelle Snyder</p>
-                        <p><strong>Status:</strong> Upcoming</p>
-                    </li>
+                    <?php if (empty($upcomingAppointments)): ?>
+                        <li>No upcoming appointments found.</li>
+                    <?php else: ?>
+                        <?php foreach ($upcomingAppointments as $appointment): ?>
+                            <li>
+                                <p><strong>Service:</strong> <?= htmlspecialchars($appointment['service']) ?></p>
+                                <p><strong>Date:</strong> <?= htmlspecialchars($appointment['preferred_date']) ?></p>
+                                <p><strong>Time:</strong> <?= htmlspecialchars($appointment['preferred_time']) ?></p>
+                                <p><strong>Status:</strong> <?= htmlspecialchars($appointment['status']) ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </section>
 
@@ -42,22 +84,19 @@
             <section class="appointments-past">
                 <h2>Past Appointments</h2>
                 <ul class="appointment-list">
-                    <li>
-                        <p><strong>Service:</strong> Full Grooming</p>
-                        <p><strong>Date:</strong> 2024-01-15</p>
-                        <p><strong>Time:</strong> 11:00 AM</p>
-                        <p><strong>Stylist:</strong> Myles Ashman</p>
-                        <p><strong>Status:</strong> Completed</p>
-                        <a href="/EGS/pages/BookAppointment.php" class="rebook-button">Rebook</a>
-                    </li>
-                    <li>
-                        <p><strong>Service:</strong> Shaving</p>
-                        <p><strong>Date:</strong> 2024-01-10</p>
-                        <p><strong>Time:</strong> 9:30 AM</p>
-                        <p><strong>Stylist:</strong> Dakota Jernigan</p>
-                        <p><strong>Status:</strong> Completed</p>
-                        <a href="/EGS/pages/BookAppointment.php" class="rebook-button">Rebook</a>
-                    </li>
+                    <?php if (empty($pastAppointments)): ?>
+                        <li>No past appointments found.</li>
+                    <?php else: ?>
+                        <?php foreach ($pastAppointments as $appointment): ?>
+                            <li>
+                                <p><strong>Service:</strong> <?= htmlspecialchars($appointment['service']) ?></p>
+                                <p><strong>Date:</strong> <?= htmlspecialchars($appointment['preferred_date']) ?></p>
+                                <p><strong>Time:</strong> <?= htmlspecialchars($appointment['preferred_time']) ?></p>
+                                <p><strong>Status:</strong> <?= htmlspecialchars($appointment['status']) ?></p>
+                                <a href="/EGS/pages/BookAppointment.php" class="rebook-button">Rebook</a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </section>
         </div>
