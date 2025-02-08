@@ -11,6 +11,7 @@ $products = fetchProducts($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - Admin Panel</title>
     <link rel="stylesheet" href="adminPanel.css">
+    <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
@@ -24,6 +25,7 @@ $products = fetchProducts($conn);
                 <li><a href="messages.php">Messages</a></li>
                 <li><a href="users.php">Users</a></li>
                 <li><a href="appointments.php">Appointments</a></li>
+                <li><a href="orders.php">Orders</a></li>
                 <li><a href="/EGS/pages/login.php">Logout</a></li>
             </ul>
         </nav>

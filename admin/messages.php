@@ -11,6 +11,7 @@ $messages = fetchMessages($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages - Admin Panel</title>
     <link rel="stylesheet" href="adminPanel.css">
+    <link rel="icon" href="/EGS/assets/images/2.png" type="image/x-icon">
 </head>
 
 <body>
@@ -24,6 +25,7 @@ $messages = fetchMessages($conn);
                 <li><a href="messages.php">Messages</a></li>
                 <li><a href="users.php">Users</a></li>
                 <li><a href="appointments.php">Appointments</a></li>
+                <li><a href="orders.php">Orders</a></li>
                 <li><a href="/EGS/pages/login.php">Logout</a></li>
             </ul>
         </nav>
@@ -50,6 +52,10 @@ $messages = fetchMessages($conn);
             <?php endforeach; ?>
         </table>
     </main>
+
+    <footer class="admin-footer">
+        <p>&copy; 2025 Elite Grooming Studio. All Rights Reserved.</p>
+    </footer>
 </body>
 
 </html>
