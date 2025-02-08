@@ -18,10 +18,11 @@ $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
 
 if (!isset($_SESSION['order_id'])) {
     $userId = $_SESSION['user_id'] ?? null;
+    $guestData = json_decode($checkout_session->metadata->guestData, true);
     $totalAmount = $checkout_session->amount_total / 100; // Convert cents to dollars
     $cartItems = getCartItems();
 
-    $orderId = storeOrder($userId, $totalAmount, $cartItems);
+    $orderId = storeOrder($userId, $guestData, $totalAmount, $cartItems);
 
     // Clear the cart
     clearCart($userId);
@@ -53,7 +54,7 @@ if (!isset($_SESSION['order_id'])) {
         <div class="success-container">
             <h2>Order Successful</h2>
             <p>Thank you for your order! Your order ID is <strong><?= htmlspecialchars($orderId) ?></strong>.</p>
-            <p class="order-total">Total Amount: <strong>$<?= htmlspecialchars($totalAmount) ?></strong></p>
+            <p class="order-total">Total Amount: <strong>$<?= htmlspecialchars($totalAmount) ?></strong>.</p>
             <a href="/EGS/pages/shop.php" class="continue-shopping">Continue Shopping</a>
         </div>
     </main>
