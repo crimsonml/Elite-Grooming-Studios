@@ -1351,6 +1351,72 @@ form button:hover {
 .profile-content form button:hover {
   background-color: #333;
 }
+/* Order List Styles */
+.order-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each order card */
+}
+
+/* Order Card */
+.order-list li {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-list li:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Order Details */
+.order-list li p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.order-list li p strong {
+  color: #000;
+}
+
+/* View Details Link */
+.order-list li a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.order-list li a:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .order-list li {
+    padding: 15px;
+  }
+
+  .order-list li p {
+    font-size: 0.9rem;
+  }
+
+  .order-list li a {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+}
 
 /* Appointments Page Content */
 .appointments-upcoming, .appointments-past {
@@ -1524,5 +1590,93 @@ form button:hover {
   .continue-shopping {
     font-size: 0.9rem;
     padding: 10px 15px;
+  }
+}
+
+/* Order Details Container */
+.order-details-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.order-details-container h1 {
+  font-size: 2rem;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+/* Order Summary Section */
+.order-summary {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.order-summary p {
+  font-size: 1rem;
+  color: #333;
+  margin: 8px 0;
+}
+
+.order-summary p strong {
+  color: #000;
+}
+
+/* Items Ordered List */
+.order-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Individual Order Item */
+.order-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.order-item p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.order-item p strong {
+  color: #000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-details-container {
+      padding: 15px;
+  }
+
+  .order-summary {
+      padding: 10px;
+  }
+
+  .order-item {
+      padding: 10px;
+  }
+
+  .order-details-container h1 {
+      font-size: 1.8rem;
+  }
+
+  .order-summary p,
+  .order-item p {
+      font-size: 0.9rem;
   }
 }
