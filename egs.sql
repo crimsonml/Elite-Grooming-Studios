@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2025 at 09:04 AM
--- Server version: 10.4.32-MariaDB
+-- Generation Time: Feb 08, 2025 at 11:20 AM
+-- Server version: 8.2.0
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `appointments` (
-  `appointment_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `appointment_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -37,9 +37,9 @@ CREATE TABLE `appointments` (
   `preferred_time` time NOT NULL,
   `service` varchar(100) NOT NULL,
   `status` enum('Upcoming','Completed','Cancelled') DEFAULT 'Upcoming',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `appointments`
@@ -55,11 +55,11 @@ INSERT INTO `appointments` (`appointment_id`, `user_id`, `name`, `email`, `phone
 --
 
 CREATE TABLE `carts` (
-  `cart_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `cart_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `carts`
@@ -75,13 +75,28 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `cart_items` (
-  `cart_item_id` int(11) NOT NULL,
-  `cart_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `cart_item_id` int NOT NULL,
+  `cart_id` int NOT NULL,
+  `item_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guest_orders`
+--
+
+CREATE TABLE `guest_orders` (
+  `guest_id` int NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -90,16 +105,16 @@ CREATE TABLE `cart_items` (
 --
 
 CREATE TABLE `items` (
-  `item_id` int(11) NOT NULL,
+  `item_id` int NOT NULL,
   `item_name` varchar(150) NOT NULL,
   `small_description` varchar(255) NOT NULL,
   `long_description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `stock` int(11) DEFAULT 0,
+  `stock` int DEFAULT '0',
   `image_location` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `items`
@@ -119,10 +134,10 @@ INSERT INTO `items` (`item_id`, `item_name`, `small_description`, `long_descript
 --
 
 CREATE TABLE `messages` (
-  `name` varchar(30) NOT NULL,
-  `email` varchar(20) NOT NULL,
-  `contact` varchar(15) NOT NULL,
-  `message` varchar(50) NOT NULL,
+  `name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `contact` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `message` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -140,13 +155,21 @@ INSERT INTO `messages` (`name`, `email`, `contact`, `message`, `date`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `order_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `guest_id` int DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL,
   `order_status` enum('Pending','Completed','Cancelled') DEFAULT 'Pending',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `guest_id`, `total_amount`, `order_status`, `created_at`, `updated_at`) VALUES
+(1, 2, NULL, 25.98, 'Pending', '2025-02-08 08:42:42', '2025-02-08 08:42:42');
 
 -- --------------------------------------------------------
 
@@ -155,14 +178,21 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `order_items` (
-  `order_item_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
+  `order_item_id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `item_id` int NOT NULL,
   `item_name` varchar(150) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 1,
+  `quantity` int NOT NULL DEFAULT '1',
   `subtotal` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_id`, `item_name`, `price`, `quantity`, `subtotal`) VALUES
+(1, 1, 3, 'Beard Balm', 12.99, 2, 25.98);
 
 -- --------------------------------------------------------
 
@@ -171,18 +201,18 @@ CREATE TABLE `order_items` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
   `username` varchar(50) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `address` text DEFAULT NULL,
+  `address` text,
   `password` varchar(255) NOT NULL,
   `role` enum('user','admin') DEFAULT 'user',
-  `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `users`
@@ -216,6 +246,12 @@ ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`cart_item_id`),
   ADD KEY `cart_id` (`cart_id`),
   ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `guest_orders`
+--
+ALTER TABLE `guest_orders`
+  ADD PRIMARY KEY (`guest_id`);
 
 --
 -- Indexes for table `items`
@@ -257,43 +293,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `appointment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cart_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `guest_orders`
+--
+ALTER TABLE `guest_orders`
+  MODIFY `guest_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
