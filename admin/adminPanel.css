@@ -58,6 +58,44 @@ body {
     font-size: 1rem;
 }
 
+/* Summary Container */
+.summary-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.summary-item {
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 2rem);
+    box-sizing: border-box;
+}
+
+.summary-item h3 {
+    margin-top: 0;
+}
+
+.summary-item p {
+    margin: 0.5rem 0;
+}
+
+.summary-item a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.summary-item a:hover {
+    text-decoration: underline;
+}
+
 /* Table Styles */
 table {
     width: 100%;
