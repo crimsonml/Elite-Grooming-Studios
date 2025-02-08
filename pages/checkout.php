@@ -13,11 +13,7 @@ if (empty($cartItems)) {
     exit;
 }
 
-// Ensure the user is logged in and has an email set in the session
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['email']) || empty($_SESSION['email'])) {
-    header("Location: /EGS/pages/logIn.php");
-    exit;
-}
+$guestData = json_decode(file_get_contents('php://input'), true)['guestData'] ?? null;
 
 $line_items = [];
 foreach ($cartItems as $item) {
@@ -37,12 +33,15 @@ try {
     // Create the Stripe Checkout session
     $checkout_session = \Stripe\Checkout\Session::create([
         "payment_method_types" => ["card"],
-        "customer_email" => $_SESSION['email'],
+        "customer_email" => $guestData['email'] ?? $_SESSION['email'],
         "mode" => "payment",
         "line_items" => $line_items,
         "success_url" => "http://localhost/EGS/pages/success.php?session_id={CHECKOUT_SESSION_ID}",
         "cancel_url" => "http://localhost/EGS/pages/cart.php",
         "locale" => "auto",
+        "metadata" => [
+            "guestData" => json_encode($guestData)
+        ]
     ]);
 
     $_SESSION['payment_status'] = 'success';

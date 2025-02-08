@@ -4,11 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/secrets.php';
 function connectDB()
 {
     try {
-        $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME,
-            DB_USER,
-            DB_PASS
-        );
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $pdo;
@@ -365,18 +361,42 @@ function getCartItemCount()
     return $totalQuantity;
 }
 
-function storeOrder($userId, $totalAmount, $cartItems)
+function storeOrder($userId, $guestData, $totalAmount, $cartItems)
 {
     $pdo = connectDB();
 
     try {
-        // Insert order
-        $sql = "INSERT INTO orders (user_id, total_amount, order_status) VALUES (:user_id, :total_amount, 'Pending')";
+        // Start a transaction
+        $pdo->beginTransaction();
+
+        if ($guestData) {
+            // Insert guest details into guest_orders table
+            $sql = "INSERT INTO guest_orders (full_name, email, phone, address, created_at) VALUES (:full_name, :email, :phone, :address, NOW())";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':full_name' => $guestData['full_name'],
+                ':email' => $guestData['email'],
+                ':phone' => $guestData['phone'],
+                ':address' => $guestData['address']
+            ]);
+            $guestId = $pdo->lastInsertId();
+        } else {
+            $guestId = null;
+        }
+
+        // Insert the order into the orders table
+        $sql = "INSERT INTO orders (user_id, guest_id, total_amount, order_status, created_at) VALUES (:user_id, :guest_id, :total_amount, 'Pending', NOW())";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':user_id' => $userId, ':total_amount' => $totalAmount]);
+        $stmt->execute([
+            ':user_id' => $userId,
+            ':guest_id' => $guestId,
+            ':total_amount' => $totalAmount
+        ]);
+
+        // Get the order ID of the newly created order
         $orderId = $pdo->lastInsertId();
 
-        // Insert order items
+        // Insert each cart item into the order_items table
         foreach ($cartItems as $item) {
             $sql = "INSERT INTO order_items (order_id, item_id, item_name, price, quantity, subtotal) VALUES (:order_id, :item_id, :item_name, :price, :quantity, :subtotal)";
             $stmt = $pdo->prepare($sql);
@@ -390,8 +410,13 @@ function storeOrder($userId, $totalAmount, $cartItems)
             ]);
         }
 
+        // Commit the transaction
+        $pdo->commit();
+
         return $orderId;
     } catch (PDOException $e) {
+        // Rollback the transaction if something goes wrong
+        $pdo->rollBack();
         return false;
     }
 }
@@ -434,6 +459,39 @@ function getOrderDetails($orderId)
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':order_id' => $orderId]);
         return $stmt->fetch();
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+// Function to get recent orders for a given user (limit defaults to 10)
+function getRecentOrders($userId, $limit = 10)
+{
+    $pdo = connectDB();
+    try {
+        $sql = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY created_at DESC LIMIT :limit";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+// Function to get order items for a given order id
+function getOrderItems($orderId)
+{
+    $pdo = connectDB();
+    try {
+        $sql = "SELECT oi.*, i.item_name 
+                FROM order_items oi 
+                LEFT JOIN items i ON oi.item_id = i.item_id 
+                WHERE oi.order_id = :order_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':order_id' => $orderId]);
+        return $stmt->fetchAll();
     } catch (PDOException $e) {
         return false;
     }

@@ -9,23 +9,50 @@
 </head>
 
 <body>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php'; ?>
+    <?php
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/elements/header.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/functions.php';
 
+    // Ensure the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /EGS/pages/logIn.php");
+        exit;
+    }
+
+    $userId = $_SESSION['user_id'];
+    $orders = getRecentOrders($userId);
+    ?>
     <main class="profile-container">
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/EGS/profile/sidebar.php'; ?>
-
         <div class="profile-content">
             <h1>Order History</h1>
-            <ul class="order-list">
-                <li>
-                    <p><strong>Order ID:</strong> #12345</p>
-                    <p><strong>Date:</strong> 2024-01-15</p>
-                    <p><strong>Items:</strong> Beard Oil x1, Hair Cream x2</p>
-                    <p><strong>Total:</strong> $49.99</p>
-                    <a href="/EGS/orders/download-invoice.php?order_id=12345" class="download-invoice">Download Invoice</a>
-                </li>
-                <!-- Additional orders go here -->
-            </ul>
+            <?php if ($orders && count($orders) > 0): ?>
+                <ul class="order-list">
+                    <?php foreach ($orders as $order):
+                        $orderItems = getOrderItems($order['order_id']);
+                    ?>
+                        <li>
+                            <p><strong>Order ID:</strong> #<?= htmlspecialchars($order['order_id']) ?></p>
+                            <p><strong>Date:</strong> <?= htmlspecialchars($order['created_at']) ?></p>
+                            <p><strong>Total:</strong> $<?= htmlspecialchars($order['total_amount']) ?></p>
+                            <?php if ($orderItems && count($orderItems) > 0): ?>
+                                <p><strong>Items:</strong>
+                                    <?php
+                                    $itemsText = [];
+                                    foreach ($orderItems as $item) {
+                                        // Format: ItemName xQuantity
+                                        $itemsText[] = htmlspecialchars($item['item_name']) . " x" . htmlspecialchars($item['quantity']);
+                                    }
+                                    echo implode(", ", $itemsText);
+                                    ?>
+                                </p>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>You have no orders.</p>
+            <?php endif; ?>
         </div>
     </main>
 
