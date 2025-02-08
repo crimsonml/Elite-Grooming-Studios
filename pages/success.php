@@ -16,24 +16,27 @@ if (!isset($_GET['session_id'])) {
 $session_id = $_GET['session_id'];
 $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
 
-if (!isset($_SESSION['order_id'])) {
-    $userId = $_SESSION['user_id'] ?? null;
-    $guestData = json_decode($checkout_session->metadata->guestData, true);
-    $totalAmount = $checkout_session->amount_total / 100; // Convert cents to dollars
-    $cartItems = getCartItems();
+$userId = $_SESSION['user_id'] ?? null;
+$guestData = json_decode($checkout_session->metadata->guestData, true);
+$totalAmount = $checkout_session->amount_total / 100; // Convert cents to dollars
 
-    $orderId = storeOrder($userId, $guestData, $totalAmount, $cartItems);
+// Check if the order has already been processed using the session ID
+$pdo = connectDB();
+$sql = "SELECT order_id FROM orders WHERE session_id = :session_id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':session_id' => $session_id]);
+$order = $stmt->fetch();
+
+if ($order) {
+    $orderId = $order['order_id'];
+} else {
+    $cartItems = getCartItems();
+    $orderId = storeOrder($userId, $guestData, $totalAmount, $cartItems, $session_id);
 
     // Clear the cart
     clearCart($userId);
-
-    // Store order ID in session to prevent duplicate orders
-    $_SESSION['order_id'] = $orderId;
-} else {
-    $orderId = $_SESSION['order_id'];
-    $order = getOrderDetails($orderId);
-    $totalAmount = $order['total_amount'];
 }
+
 ?>
 
 <!DOCTYPE html>
