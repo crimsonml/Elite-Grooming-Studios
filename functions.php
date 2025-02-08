@@ -361,66 +361,6 @@ function getCartItemCount()
     return $totalQuantity;
 }
 
-function storeOrder($userId, $guestData, $totalAmount, $cartItems)
-{
-    $pdo = connectDB();
-
-    try {
-        // Start a transaction
-        $pdo->beginTransaction();
-
-        if ($guestData) {
-            // Insert guest details into guest_orders table
-            $sql = "INSERT INTO guest_orders (full_name, email, phone, address, created_at) VALUES (:full_name, :email, :phone, :address, NOW())";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ':full_name' => $guestData['full_name'],
-                ':email' => $guestData['email'],
-                ':phone' => $guestData['phone'],
-                ':address' => $guestData['address']
-            ]);
-            $guestId = $pdo->lastInsertId();
-        } else {
-            $guestId = null;
-        }
-
-        // Insert the order into the orders table
-        $sql = "INSERT INTO orders (user_id, guest_id, total_amount, order_status, created_at) VALUES (:user_id, :guest_id, :total_amount, 'Pending', NOW())";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':user_id' => $userId,
-            ':guest_id' => $guestId,
-            ':total_amount' => $totalAmount
-        ]);
-
-        // Get the order ID of the newly created order
-        $orderId = $pdo->lastInsertId();
-
-        // Insert each cart item into the order_items table
-        foreach ($cartItems as $item) {
-            $sql = "INSERT INTO order_items (order_id, item_id, item_name, price, quantity, subtotal) VALUES (:order_id, :item_id, :item_name, :price, :quantity, :subtotal)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ':order_id' => $orderId,
-                ':item_id' => $item['item_id'],
-                ':item_name' => $item['item_name'],
-                ':price' => $item['price'],
-                ':quantity' => $item['quantity'],
-                ':subtotal' => $item['price'] * $item['quantity']
-            ]);
-        }
-
-        // Commit the transaction
-        $pdo->commit();
-
-        return $orderId;
-    } catch (PDOException $e) {
-        // Rollback the transaction if something goes wrong
-        $pdo->rollBack();
-        return false;
-    }
-}
-
 function clearCart($userId)
 {
     $pdo = connectDB();
@@ -493,6 +433,67 @@ function getOrderItems($orderId)
         $stmt->execute([':order_id' => $orderId]);
         return $stmt->fetchAll();
     } catch (PDOException $e) {
+        return false;
+    }
+}
+
+function storeOrder($userId, $guestData, $totalAmount, $cartItems, $sessionId)
+{
+    $pdo = connectDB();
+
+    try {
+        // Start a transaction
+        $pdo->beginTransaction();
+
+        if ($guestData) {
+            // Insert guest details into guest_orders table
+            $sql = "INSERT INTO guest_orders (full_name, email, phone, address, created_at) VALUES (:full_name, :email, :phone, :address, NOW())";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':full_name' => $guestData['full_name'],
+                ':email' => $guestData['email'],
+                ':phone' => $guestData['phone'],
+                ':address' => $guestData['address']
+            ]);
+            $guestId = $pdo->lastInsertId();
+        } else {
+            $guestId = null;
+        }
+
+        // Insert the order into the orders table
+        $sql = "INSERT INTO orders (user_id, guest_id, total_amount, order_status, created_at, session_id) VALUES (:user_id, :guest_id, :total_amount, 'Pending', NOW(), :session_id)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':user_id' => $userId,
+            ':guest_id' => $guestId,
+            ':total_amount' => $totalAmount,
+            ':session_id' => $sessionId
+        ]);
+
+        // Get the order ID of the newly created order
+        $orderId = $pdo->lastInsertId();
+
+        // Insert each cart item into the order_items table
+        foreach ($cartItems as $item) {
+            $sql = "INSERT INTO order_items (order_id, item_id, item_name, price, quantity, subtotal) VALUES (:order_id, :item_id, :item_name, :price, :quantity, :subtotal)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':order_id' => $orderId,
+                ':item_id' => $item['item_id'],
+                ':item_name' => $item['item_name'],
+                ':price' => $item['price'],
+                ':quantity' => $item['quantity'],
+                ':subtotal' => $item['price'] * $item['quantity']
+            ]);
+        }
+
+        // Commit the transaction
+        $pdo->commit();
+
+        return $orderId;
+    } catch (PDOException $e) {
+        // Rollback the transaction if something goes wrong
+        $pdo->rollBack();
         return false;
     }
 }

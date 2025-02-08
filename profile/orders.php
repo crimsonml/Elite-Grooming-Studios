@@ -40,13 +40,13 @@
                                     <?php
                                     $itemsText = [];
                                     foreach ($orderItems as $item) {
-                                        // Format: ItemName xQuantity
                                         $itemsText[] = htmlspecialchars($item['item_name']) . " x" . htmlspecialchars($item['quantity']);
                                     }
                                     echo implode(", ", $itemsText);
                                     ?>
                                 </p>
                             <?php endif; ?>
+                            <a href="/EGS/profile/order-details.php?order_id=<?= $order['order_id'] ?>">View Details</a>
                         </li>
                     <?php endforeach; ?>
                 </ul>

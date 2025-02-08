@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2025 at 11:20 AM
+-- Generation Time: Feb 08, 2025 at 03:11 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.12
 
@@ -124,8 +124,7 @@ INSERT INTO `items` (`item_id`, `item_name`, `small_description`, `long_descript
 (1, 'Premium Beard Oil', 'Natural ingredients for a healthy beard', 'Our Premium Beard Oil is made with natural ingredients to keep your beard soft, shiny, and healthy. Designed for all beard types. This premium beard oil is crafted with the finest natural ingredients to help you maintain a soft, healthy, and well-groomed beard. Whether you’re sporting a short stubble or a long, luxurious beard, this oil deeply conditions, hydrates, and tames your facial hair. Packed with a blend of organic essential oils like argan oil, jojoba oil, and vitamin E, it nourishes the beard while promoting healthy hair growth. The lightweight, non-greasy formula absorbs quickly, leaving your beard feeling silky smooth without any residue. Enjoy the subtle, masculine scent designed to complement your grooming routine. Our beard oil is free from parabens, sulfates, and artificial fragrances, making it perfect for all skin types. Directions for use: Dispense a few drops into your palms, rub your hands together, and massage into your beard and skin beneath. Comb through for even distribution and style as desired.', 19.99, 100, 'tools.jpg', '2025-01-25 14:04:49', '2025-01-25 14:07:57'),
 (2, 'Luxury Shaving Cream', 'Smooth and comfortable shave', 'Experience a smooth and comfortable shave with our Luxury Shaving Cream. Formulated with natural ingredients, it provides a rich lather that softens your beard and protects your skin. Suitable for all skin types.', 14.99, 50, 'oil.jpg', '2025-01-25 14:04:49', '2025-01-25 14:08:07'),
 (3, 'Beard Balm', 'Condition and style your beard', 'Our Beard Balm is designed to condition and style your beard. Made with natural ingredients, it provides a light hold and a subtle shine. Perfect for taming unruly facial hair.', 12.99, 75, 'cream.jpg', '2025-01-25 14:04:49', '2025-01-25 14:08:15'),
-(4, 'meaw', 'just a cat', 'pretty moody', 900.00, 10, '6799c25a1caaf.png', '2025-01-29 05:53:30', '2025-01-29 05:55:16'),
-(6, 'cat 3', 'another really stupid cat', 'no idea', 801.00, 11, '6799c86f74fcb.png', '2025-01-29 06:19:27', '2025-01-29 06:33:28');
+(7, 'Professional 6” Barber Haircut Salon Scissors', 'Professional 6” Barber Haircut Salon Scissors', 'Professional 6” Barber Haircut Salon Scissors', 10.00, 100, '67a765ecdee89.jpg', '2025-02-08 14:10:52', '2025-02-08 14:11:29');
 
 -- --------------------------------------------------------
 
@@ -161,15 +160,9 @@ CREATE TABLE `orders` (
   `total_amount` decimal(10,2) NOT NULL,
   `order_status` enum('Pending','Completed','Cancelled') DEFAULT 'Pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `session_id` varchar(255) NOT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `guest_id`, `total_amount`, `order_status`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, 25.98, 'Pending', '2025-02-08 08:42:42', '2025-02-08 08:42:42');
 
 -- --------------------------------------------------------
 
@@ -186,13 +179,6 @@ CREATE TABLE `order_items` (
   `quantity` int NOT NULL DEFAULT '1',
   `subtotal` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`order_item_id`, `order_id`, `item_id`, `item_name`, `price`, `quantity`, `subtotal`) VALUES
-(1, 1, 3, 'Beard Balm', 12.99, 2, 25.98);
 
 -- --------------------------------------------------------
 
@@ -219,7 +205,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `phone`, `address`, `password`, `role`, `is_active`, `created_at`, `updated_at`) VALUES
-(2, 'Helith Lochana', 'helithalochana@gmail.com', 'iamhelitha', '0716669594', '228/2, Dharamadharshi Mawatha\r\nIhala Karagahamuna', '$2y$10$qMU3vM79MYPdGOuhNjtoF.1.mMJZQHSdWRdRPnLAFzO.rNdlaYrmS', 'user', 1, '2025-01-22 21:00:26', '2025-01-25 13:39:31'),
+(2, 'Helith Lochana', 'helithalochana@gmail.com', 'iamhelitha', '0716669594', '228/2, Dharamadharshi Mawatha\r\nIhala Karagahamuna', '$2y$10$qMU3vM79MYPdGOuhNjtoF.1.mMJZQHSdWRdRPnLAFzO.rNdlaYrmS', 'admin', 1, '2025-01-22 21:00:26', '2025-02-08 14:06:47'),
 (3, 'Crimson', 's@gmial.com', 'crimson', NULL, NULL, '$2y$10$7uc1cl5BG38jGqJ2lr23Xedo6OwoOlwb7qom0b3bjiISOf6f5RF.G', 'admin', 1, '2025-01-28 15:15:05', '2025-01-28 15:15:27');
 
 --
@@ -305,7 +291,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cart_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `guest_orders`
@@ -317,19 +303,19 @@ ALTER TABLE `guest_orders`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
